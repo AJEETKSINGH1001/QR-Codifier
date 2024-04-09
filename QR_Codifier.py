@@ -5,10 +5,9 @@ from PIL import Image, ImageTk
 import json
 import os
 import uuid
-import regex as re  # Import regex module for validation
+import regex as re
 
 
-# Function to generate QR code
 def generate_qr_code(data, filename):
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
     qr.add_data(data)
@@ -17,7 +16,6 @@ def generate_qr_code(data, filename):
     img.save(filename)
 
 
-# Function to save person's information to JSON file
 def save_person_info(person_info):
     filename = 'person_data.json'
     if os.path.exists(filename):
@@ -26,7 +24,7 @@ def save_person_info(person_info):
     else:
         data = {}
 
-    unique_id = str(uuid.uuid4())  # Generate a unique ID
+    unique_id = str(uuid.uuid4())
     person_info['unique_id'] = unique_id
     data[unique_id] = person_info
 
@@ -34,19 +32,14 @@ def save_person_info(person_info):
         json.dump(data, file, indent=4)
 
 
-# Function to validate phone number
 def validate_phone_number(phone_number):
-    # Regex for a valid phone number (10 digits)
     return re.fullmatch(r'^\d{10}$', phone_number)
 
 
-# Function to validate email address
 def validate_email(email):
-    # Regex for a valid email address
     return re.fullmatch(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email)
 
 
-# Function to handle "Add Person" button click
 def add_person():
     name = name_entry.get().strip()
     mother_name = mother_name_entry.get().strip()
@@ -81,37 +74,47 @@ def add_person():
     messagebox.showinfo("Success", f"Person added successfully with Unique ID: {person_info['unique_id']}")
 
 
-# Main GUI window
 root = tk.Tk()
-root.title("QR Codifier")
+root.title("QR Code Generator")
 
-# Labels and Entry Widgets
-tk.Label(root, text="Name:").grid(row=0, column=0, padx=10, pady=5, sticky="w")
-name_entry = tk.Entry(root, width=30)
+# Custom title bar frame
+title_bar = tk.Frame(root, bg="blue", relief=tk.SUNKEN, bd=2)
+title_bar.pack(fill=tk.X)
+
+# Title label inside the custom title bar
+title_label = tk.Label(title_bar, text="QR Code Generator", fg="white", bg="blue", font=("Helvetica", 14, "bold"))
+title_label.pack(pady=5)
+
+# Main content area
+content_frame = tk.Frame(root)
+content_frame.pack(padx=20, pady=10)
+
+tk.Label(content_frame, text="Name:").grid(row=0, column=0, padx=10, pady=5, sticky="w")
+name_entry = tk.Entry(content_frame, width=30)
 name_entry.grid(row=0, column=1, padx=10, pady=5)
 
-tk.Label(root, text="Mother's Name:").grid(row=1, column=0, padx=10, pady=5, sticky="w")
-mother_name_entry = tk.Entry(root, width=30)
+tk.Label(content_frame, text="Mother's Name:").grid(row=1, column=0, padx=10, pady=5, sticky="w")
+mother_name_entry = tk.Entry(content_frame, width=30)
 mother_name_entry.grid(row=1, column=1, padx=10, pady=5)
 
-tk.Label(root, text="Father's Name:").grid(row=2, column=0, padx=10, pady=5, sticky="w")
-father_name_entry = tk.Entry(root, width=30)
+tk.Label(content_frame, text="Father's Name:").grid(row=2, column=0, padx=10, pady=5, sticky="w")
+father_name_entry = tk.Entry(content_frame, width=30)
 father_name_entry.grid(row=2, column=1, padx=10, pady=5)
 
-tk.Label(root, text="Phone Number:").grid(row=3, column=0, padx=10, pady=5, sticky="w")
-phone_entry = tk.Entry(root, width=30)
+tk.Label(content_frame, text="Phone Number:").grid(row=3, column=0, padx=10, pady=5, sticky="w")
+phone_entry = tk.Entry(content_frame, width=30)
 phone_entry.grid(row=3, column=1, padx=10, pady=5)
 
-tk.Label(root, text="Email ID:").grid(row=4, column=0, padx=10, pady=5, sticky="w")
-email_entry = tk.Entry(root, width=30)
+tk.Label(content_frame, text="Email ID:").grid(row=4, column=0, padx=10, pady=5, sticky="w")
+email_entry = tk.Entry(content_frame, width=30)
 email_entry.grid(row=4, column=1, padx=10, pady=5)
 
-tk.Label(root, text="Address:").grid(row=5, column=0, padx=10, pady=5, sticky="w")
-address_entry = tk.Entry(root, width=30)
+tk.Label(content_frame, text="Address:").grid(row=5, column=0, padx=10, pady=5, sticky="w")
+address_entry = tk.Entry(content_frame, width=30)
 address_entry.grid(row=5, column=1, padx=10, pady=5)
 
-# Button to add person
-add_button = tk.Button(root, text="Add Person", command=add_person)
+# Button with color
+add_button = tk.Button(content_frame, text="Add Person", command=add_person, bg="green", fg="white")
 add_button.grid(row=6, column=0, columnspan=2, pady=10)
 
 root.mainloop()

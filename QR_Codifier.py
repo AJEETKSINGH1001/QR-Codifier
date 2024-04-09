@@ -24,6 +24,16 @@ def save_person_info(person_info):
     else:
         data = {}
 
+    # Check if phone number or email already exists
+    for person_id in data:
+        existing_info = data[person_id]
+        if existing_info['phone_number'] == person_info['phone_number']:
+            messagebox.showwarning("Warning", "Phone number already exists.")
+            return
+        if existing_info['email'] == person_info['email']:
+            messagebox.showwarning("Warning", "Email address already exists.")
+            return
+
     unique_id = str(uuid.uuid4())
     person_info['unique_id'] = unique_id
     data[unique_id] = person_info
@@ -69,6 +79,7 @@ def add_person():
         'address': address
     }
 
+    # Save person info only if phone number and email are unique
     save_person_info(person_info)
     generate_qr_code(json.dumps(person_info), f"{person_info['unique_id']}.png")
     messagebox.showinfo("Success", f"Person added successfully with Unique ID: {person_info['unique_id']}")

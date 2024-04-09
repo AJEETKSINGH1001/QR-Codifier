@@ -75,14 +75,14 @@ def add_person():
 
 
 root = tk.Tk()
-root.title("QR Code Generator")
+root.title("QR Codifier")
 
 # Custom title bar frame
 title_bar = tk.Frame(root, bg="blue", relief=tk.SUNKEN, bd=2)
 title_bar.pack(fill=tk.X)
 
 # Title label inside the custom title bar
-title_label = tk.Label(title_bar, text="QR Code Generator", fg="white", bg="blue", font=("Helvetica", 14, "bold"))
+title_label = tk.Label(title_bar, text="QR Codifier", fg="white", bg="blue", font=("Helvetica", 14, "bold"))
 title_label.pack(pady=5)
 
 # Main content area
